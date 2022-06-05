@@ -18,7 +18,7 @@ namespace PhoneBookMonolithic.CRUDServices
             _contactCollection = mDb.GetCollection<Contact>(dbSettings.Value.ContactsCollectionName);
         }
 
-        public List<Contact> Get() => _contactCollection.Find(x=>true).ToList();
+        public List<Contact> GetAll() => _contactCollection.Find(x=>true).ToList();
 
         public void Create(Contact _c) {
             _contactCollection.InsertOne(_c);

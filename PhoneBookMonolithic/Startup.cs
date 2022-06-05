@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PhoneBookMonolithic.Models;
-
+using PhoneBookMonolithic.CRUDServices;
 
 namespace PhoneBookMonolithic
 {
@@ -27,6 +27,7 @@ namespace PhoneBookMonolithic
         {
             services.AddControllersWithViews();
             services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
+            services.AddScoped<ContactService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
