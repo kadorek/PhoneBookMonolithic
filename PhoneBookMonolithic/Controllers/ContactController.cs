@@ -22,8 +22,10 @@ namespace PhoneBookMonolithic.Controllers
         }
 
         // GET: ContactController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string?  id)
         {
+            //var contact = service.GetAll().Find(x=>x.UUID==id);
+            //return View(contact);
             return View();
         }
 

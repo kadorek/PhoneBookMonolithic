@@ -1,4 +1,4 @@
-﻿@model PhoneBookMonolithic.Models.ContactDTO
+﻿@model PhoneBookMonolithic.Models.Contact
 
 @{
     ViewData["Title"] = "Create";
@@ -9,7 +9,7 @@
 <h4>ContactDTO</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -27,19 +27,43 @@
                 <input asp-for="Firma" class="form-control" />
                 <span asp-validation-for="Firma" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <fieldset>
+                <legend>İletişim Bilgileri</legend>
+                @for (var i = 0; i < 1; i++)
+                {
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label asp-for="CommuncationInfos[i].InfoType" class="control-label"></label>
+                            <select asp-for="CommuncationInfos[i].InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()">
+                                <option selected> Bilgi Türünü Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <label asp-for="CommuncationInfos[i].Value" class="control-label"></label>
+                            <input asp-for="CommuncationInfos[i].Value" class="form-control"/>
+                            <span asp-validation-for="CommuncationInfos[i].Value" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+
+
+
+            </fieldset>
+
+
+            @* <div class="form-group">
                 <label asp-for="InfoType" class="control-label"></label>
                 <select asp-for="InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()">
-                    <option selected> Bilgi Türünü Seçiniz</option>
+                <option selected> Bilgi Türünü Seçiniz</option>
                 </select>
-               @* <input asp-for="InfoType" class="form-control" />*@
+
                 <span asp-validation-for="InfoType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                </div>
+                <div class="form-group">
                 <label asp-for="Value" class="control-label"></label>
                 <input asp-for="Value" class="form-control" />
                 <span asp-validation-for="Value" class="text-danger"></span>
-            </div>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -52,5 +76,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
