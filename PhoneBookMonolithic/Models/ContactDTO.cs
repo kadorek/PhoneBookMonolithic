@@ -13,5 +13,7 @@ namespace PhoneBookMonolithic.Models
         [Display(Name="Bilgi Türü")]
         public CommunicationInfoType InfoType { get; set; }
         public string Value { get; set; }
+
+        
     }
 }

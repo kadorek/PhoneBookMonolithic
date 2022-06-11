@@ -29,41 +29,29 @@
             </div>
             <fieldset>
                 <legend>İletişim Bilgileri</legend>
-                @for (var i = 0; i < 1; i++)
-                {
-                    <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label asp-for="CommuncationInfos[i].InfoType" class="control-label"></label>
-                            <select asp-for="CommuncationInfos[i].InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()">
-                                <option selected> Bilgi Türünü Seçiniz</option>
-                            </select>
-                        </div>
-                        <div class="col-md-8 form-group">
-                            <label asp-for="CommuncationInfos[i].Value" class="control-label"></label>
-                            <input asp-for="CommuncationInfos[i].Value" class="form-control"/>
-                            <span asp-validation-for="CommuncationInfos[i].Value" class="text-danger"></span>
-                        </div>
-                    </div>
-                }
-
-
-
-            </fieldset>
-
-
-            @* <div class="form-group">
-                <label asp-for="InfoType" class="control-label"></label>
-                <select asp-for="InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()">
-                <option selected> Bilgi Türünü Seçiniz</option>
-                </select>
-
-                <span asp-validation-for="InfoType" class="text-danger"></span>
+                <div class="row">
+                    <button id="btnNewInfo">Yeni Bilgi Ekle</button>
                 </div>
-                <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" />
-                <span asp-validation-for="Value" class="text-danger"></span>
-                </div>*@
+                <span style="display:none;" id="spnInfoCount">@Model.CommuncationInfos.Count</span>
+                <div class="divInfosContainer col-12">
+                    @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
+                    {
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label asp-for="CommuncationInfos[i].InfoType" class="control-label"></label>
+                                <select asp-for="CommuncationInfos[i].InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()">
+                                    <option selected> Bilgi Türünü Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <label asp-for="CommuncationInfos[i].Value" class="control-label"></label>
+                                <input asp-for="CommuncationInfos[i].Value" class="form-control" />
+                                <span asp-validation-for="CommuncationInfos[i].Value" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </fieldset>            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -79,4 +67,34 @@
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+<script>
+    $(document).ready(function  (){
+
+        $("#btnNewInfo").on("click",function(e){
+            e.preventDefault();
+            createNewCommunicationInfo($("#spnInfoCount").text());
+        });
+
+
+
+    });
+
+    function createNewCommunicationInfo(count){
+
+        var newCommunictionInfoElement=$('<div class="row">                            <div class="col-md-4 form-group">                                <label class="control-label" for="CommuncationInfos_'+count+'__InfoType">InfoType</label>                                <select data-val="true" data-val-required="The InfoType field is required." id="CommuncationInfos_'+count+'__InfoType" name="CommuncationInfos['+count+'].InfoType">                                    <option selected=""> Bilgi Türünü Seçiniz</option>                                <option selected="selected" value="'+count+'">Adress</option><option value="1">Email</option><option value="2">Location</option></select>                            </div>                            <div class="col-md-8 form-group">                                <label class="control-label" for="CommuncationInfos_'+count+'__Value">Value</label>                                <input class="form-control" type="text" id="CommuncationInfos_'+count+'__Value" name="CommuncationInfos['+count+'].Value" value="">                                <span class="text-danger field-validation-valid" data-valmsg-for="CommuncationInfos['+count+'].Value" data-valmsg-replace="true"></span>                            </div>                        </div>');
+
+
+        newCommunictionInfoElement.appendTo(".divInfosContainer");
+
+
+        var _c=$("#spnInfoCount").text();
+
+        $("#spnInfoCount").text(Number(_c)+1)
+
+
+    }
+
+
+
+</script>
 }

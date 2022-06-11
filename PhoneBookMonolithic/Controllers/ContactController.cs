@@ -24,38 +24,31 @@ namespace PhoneBookMonolithic.Controllers
         // GET: ContactController/Details/5
         public ActionResult Details(string?  id)
         {
-            //var contact = service.GetAll().Find(x=>x.UUID==id);
-            //return View(contact);
-            return View();
+            var contact = service.GetAll().Find(x=>x.UUID==id);
+            return View(contact);
         }
 
         // GET: ContactController/Create
         public ActionResult Create()
         {
-            return View();
+            Contact _cx = new Contact();
+            _cx.CreateContactInfos();
+            return View(_cx);
         }
 
         // POST: ContactController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ContactDTO _c)
+        public ActionResult Create(Contact c)
         {
             try
-            {
-                Contact cx = new Contact()
-                {
-                    Ad = _c.Ad,
-                    Soyad = _c.Soyad,
-                    Firma = _c.Firma,
-                    CommuncationInfos = new List<CommunicationInfo>()
-                };
-                cx.CommuncationInfos.Add(new CommunicationInfo() { InfoType = _c.InfoType, Value = _c.Value });
-                service.Create(cx);
+            {               
+                service.Create(c);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(c);
             }
         }
 

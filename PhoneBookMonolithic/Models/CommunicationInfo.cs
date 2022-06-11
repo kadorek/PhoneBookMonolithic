@@ -8,7 +8,6 @@
 
     public enum CommunicationInfoType
     {
-        Adress, Email, Location
-
+        Adress, Email, Location, Phone
     }
 }

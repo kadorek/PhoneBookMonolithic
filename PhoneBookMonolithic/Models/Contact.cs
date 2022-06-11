@@ -15,6 +15,19 @@ namespace PhoneBookMonolithic.Models
         public string FullName => $"{Ad} {Soyad}";
         public List<CommunicationInfo> CommuncationInfos { get; set; }
 
+        public Contact()
+        {
+            CommuncationInfos = new List<CommunicationInfo>();
+        }
+
+        internal void CreateContactInfos(int count = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                CommuncationInfos.Add(new CommunicationInfo());
+            }
+        }
+
     }
 }
 
