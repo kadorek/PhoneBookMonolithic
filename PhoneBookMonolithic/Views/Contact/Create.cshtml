@@ -6,12 +6,13 @@
 
 <h1>Create</h1>
 
-<h4>ContactDTO</h4>
+<h4>Contact</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
                 <input asp-for="Ad" class="form-control" />
@@ -27,6 +28,7 @@
                 <input asp-for="Firma" class="form-control" />
                 <span asp-validation-for="Firma" class="text-danger"></span>
             </div>
+            
             <fieldset>
                 <legend>İletişim Bilgileri</legend>
                 <div class="row">
@@ -55,7 +57,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-<script>
+    <script>
     $(document).ready(function  (){
         $("#btnNewInfo").on("click",function(e){
             e.preventDefault();
@@ -101,5 +103,6 @@
         });
 
     }
+   
 </script>
 }
