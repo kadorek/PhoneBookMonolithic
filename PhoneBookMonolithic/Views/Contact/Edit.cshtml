@@ -1,17 +1,17 @@
 ﻿@model PhoneBookMonolithic.Models.Contact
 
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>ContactDTO</h4>
+<h4>Contact</h4>
 <hr />
 <div class="row">
-    <div class="col-md-10">
-        <form asp-action="Create">
+    <div class="col-md-4">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UUID" class="control-label"></label>
+                <input asp-for="UUID" class="form-control" disabled />
+                @Html.HiddenFor(m=>m.UUID)
+                <span asp-validation-for="UUID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
                 <input asp-for="Ad" class="form-control" />
@@ -32,16 +32,20 @@
                 <div class="row">
                     <button id="btnNewInfo">Yeni Bilgi Ekle</button>
                 </div>
-                <span style="display:none;" id="spnInfoCount">@Model.CommuncationInfos.Count</span>
                 <div class="divInfosContainer col-12">
-                    @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
+                    @if (Model.CommuncationInfos != null)
                     {
-                        <partial name="_partialComInfoCreate" model="i"></partial>
+                        <span style="display:none;" id="spnInfoCount">@Model.CommuncationInfos.Count</span>
+                        @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
+                        {
+                            <partial name="_partialComInfoEdit" model="@(new Tuple<int,PhoneBookMonolithic.Models.CommunicationInfo>(i,Model.CommuncationInfos[i]))"></partial>
+                        }
                     }
+
                 </div>
             </fieldset>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -87,11 +91,13 @@
        // e.preventDefault(e);
         var element=$(e);
         console.log(element.attr("data-index"));
-        $(".divComInfo[data-index="+element.attr("data-index")+"]").remove();        
+
+        $(".divComInfo[data-index="+element.attr("data-index")+"]").remove();
         var _c=$("#spnInfoCount").text();
         $("#spnInfoCount").text(Number(_c)-1);
 
-         $(".divComInfo  select").each(function(index){
+
+        $(".divComInfo  select").each(function(index){
             $(this).attr("name","CommuncationInfos["+index+"].InfoType");
             $(this).attr("id","CommuncationInfos_"+index+"__InfoType");
         });
@@ -99,6 +105,7 @@
             $(this).attr("name","CommuncationInfos["+index+"].Value");
             $(this).attr("id","CommuncationInfos_"+index+"__Value");
         });
+
 
     }
 </script>

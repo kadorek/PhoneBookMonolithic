@@ -1,0 +1,52 @@
+﻿@model PhoneBookMonolithic.Models.Contact
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Contact</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UUID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UUID)
+            @Html.HiddenFor(model => model.UUID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Firma)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Firma)
+        </dd>
+        <div class="container">
+            @if (Model.CommuncationInfos != null)
+            {
+                <div class="row">
+                    İletişim Bilgileri
+                </div>
+                @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.DisplayFor(m=>m.CommuncationInfos[i].InfoType) :
+                        </div>
+                        <div>
+                            @Html.DisplayFor(m=>m.CommuncationInfos[i].Value)
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

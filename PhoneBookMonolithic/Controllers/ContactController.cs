@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PhoneBookMonolithic.CRUDServices;
 using System.Collections.Generic;
 using PhoneBookMonolithic.Models;
+using System;
 
 namespace PhoneBookMonolithic.Controllers
 {
@@ -22,9 +23,9 @@ namespace PhoneBookMonolithic.Controllers
         }
 
         // GET: ContactController/Details/5
-        public ActionResult Details(string?  id)
+        public ActionResult Details(string? id)
         {
-            var contact = service.GetAll().Find(x=>x.UUID==id);
+            var contact = ((List<Contact>)service.GetAll()).Find(x => x.UUID == id);
             return View(contact);
         }
 
@@ -42,7 +43,7 @@ namespace PhoneBookMonolithic.Controllers
         public ActionResult Create(Contact c)
         {
             try
-            {               
+            {
                 service.Create(c);
                 return RedirectToAction(nameof(Index));
             }
@@ -55,45 +56,74 @@ namespace PhoneBookMonolithic.Controllers
 
 
         // GET: ContactController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string? id)
         {
-            return View();
+            var model = service.GetOne(id);
+            if (model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
 
         // POST: ContactController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Contact c)
         {
             try
             {
+                service.Update(c);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return View(c.UUID);
             }
         }
 
         // GET: ContactController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string? id)
         {
-            return View();
+            var c = service.GetOne(id);
+            return View(c);
         }
 
         // POST: ContactController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirm(string? id)
         {
+            var entity = service.GetOne(id);
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (entity == null)
+                    throw new NotImplementedException();
+                else
+                {
+                    service.DeletOne(entity);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {
-                return View();
+                return View(entity);
             }
         }
+
+        [HttpPost]
+        public IActionResult GetCommunicationInfoCreatePartial(int count)
+        {
+            return PartialView("_partialComInfoCreate", count);
+        }
+
+
+        public IActionResult GetCommunicationInfoEditPartial(int count, Models.CommunicationInfo info)
+        {
+            return PartialView("_partialComInfoEdit", new Tuple<int, CommunicationInfo>(count, info));
+        }
+
+
+
     }
 }

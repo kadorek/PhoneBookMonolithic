@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PhoneBookMonolithic.Models
 {
-    public class Contact
+    public class Contact:IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

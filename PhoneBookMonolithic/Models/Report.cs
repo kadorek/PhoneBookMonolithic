@@ -4,11 +4,11 @@ using System;
 
 namespace PhoneBookMonolithic.Models
 {
-    public class Report
+    public class Report:IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? UUID { get; set; }
+        public string UUID { get; set; }
         public DateTime RequestDate { get; set; }
         public string Location { get; set; }
         public int ContactCount { get; set; }
