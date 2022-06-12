@@ -28,6 +28,8 @@ namespace PhoneBookMonolithic
             services.AddControllersWithViews();
             services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
             services.AddScoped<ContactService>();
+            services.AddScoped<ReportService>();
+            services.AddScoped<LocationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

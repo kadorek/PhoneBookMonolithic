@@ -1,0 +1,6 @@
+﻿@model Tuple<int,string>
+
+
+<label class="control-label" for="CommuncationInfos_@(Model.Item1)__Value">Value</label>
+<input class="form-control" type="text" id="CommuncationInfos_@(Model.Item1)__Value" name="CommuncationInfos[@(Model.Item1)].Value" value="@(Model.Item2!=null?Model.Item2:"")">
+<span class="text-danger field-validation-valid" data-valmsg-for="CommuncationInfos[@(Model.Item1)].Value" data-valmsg-replace="true"></span>

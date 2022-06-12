@@ -112,11 +112,16 @@ namespace PhoneBookMonolithic.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetCommunicationInfoCreatePartial(int count)
+        public IActionResult GetProperInputField(int count, string data, int type)
         {
-            return PartialView("_partialComInfoCreate", count);
+            return ViewComponent("InputComponent", new { count = count, data = data, tip = (CommunicationInfoType)type });
         }
 
+        [HttpPost]
+        public IActionResult GetComInfoCreateFields(int count)
+        {
+            return ViewComponent("CommunicationInfoComponent", new { count = count });
+        }
 
         public IActionResult GetCommunicationInfoEditPartial(int count, Models.CommunicationInfo info)
         {

@@ -3,7 +3,7 @@
 <h4>Contact</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -38,7 +38,7 @@
                         <span style="display:none;" id="spnInfoCount">@Model.CommuncationInfos.Count</span>
                         @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
                         {
-                            <partial name="_partialComInfoEdit" model="@(new Tuple<int,PhoneBookMonolithic.Models.CommunicationInfo>(i,Model.CommuncationInfos[i]))"></partial>
+                            @await Component.InvokeAsync("CommunicationInfoComponent", new { count = i,info=Model.CommuncationInfos[i] })
                         }
                     }
 
@@ -70,7 +70,7 @@
     function createNewCommunicationInfo(count){
         $.ajax({
             type: "POST",
-            url: "/Contact/GetCommunicationInfoCreatePartial",
+            url: "/Contact/GetComInfoCreateFields",
             data: { "count": count },
             success: function (response) {
                 $(response).appendTo(".divInfosContainer");
@@ -91,22 +91,52 @@
        // e.preventDefault(e);
         var element=$(e);
         console.log(element.attr("data-index"));
-
         $(".divComInfo[data-index="+element.attr("data-index")+"]").remove();
         var _c=$("#spnInfoCount").text();
         $("#spnInfoCount").text(Number(_c)-1);
 
-
-        $(".divComInfo  select").each(function(index){
-            $(this).attr("name","CommuncationInfos["+index+"].InfoType");
-            $(this).attr("id","CommuncationInfos_"+index+"__InfoType");
+        $(".divComInfo").each(function(index){
+            $(this).attr("data-index",index);
+            $(this).find("select,input").each(function(ii){
+                var oldName=$(this).attr("name");
+                if (oldName){
+                    $(this).attr("name",oldName.replace(/\d+/,index));
+                }
+                var oldId=$(this).attr("id");
+                if(oldId){
+                    $(this).attr("id",oldId.replace(/\d+/,index));
+                }
+            });
         });
-        $(".divComInfo  input").each(function(index){
-            $(this).attr("name","CommuncationInfos["+index+"].Value");
-            $(this).attr("id","CommuncationInfos_"+index+"__Value");
-        });
-
 
     }
+
+    function  ProperInputSet(e){
+        var element=$(e);
+        
+        var index=element.attr("data-index");
+        
+        var value=$("#CommuncationInfos_"+index+"__Value").val();
+        $.ajax({
+            url: "/Contact/GetProperInputField",
+            type: "post",
+            dataType: "html",
+            beforeSend: function (x) {
+            },
+            data: {    "count":index,"type":element.val(),"data":value },
+            success: function (result) {
+                $("div.divComInfo[data-index="+index+"] .divData").html("");
+                $(result).appendTo("div.divComInfo[data-index="+index+"] .divData");
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+    }
+
 </script>
 }

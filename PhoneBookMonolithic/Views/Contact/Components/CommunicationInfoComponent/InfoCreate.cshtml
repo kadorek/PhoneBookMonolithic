@@ -1,0 +1,30 @@
+﻿@model int
+
+<div class="row divComInfo" data-index="@Model">
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label class="control-label" for="CommuncationInfos_@(Model)__InfoType">InfoType</label>
+            <select data-val="true" data-val-required="The InfoType field is required." id="CommuncationInfos_@(Model)__InfoType" name="CommuncationInfos[@(Model)].InfoType" asp-items="Html.GetEnumSelectList<PhoneBookMonolithic.Models.CommunicationInfoType>()" onchange="ProperInputSet(this)" data-index="@Model">
+                <option selected="selected"> Bilgi Türünü Seçiniz</option>
+            </select>
+        </div>
+        <div class="col-md-6 form-group divData">
+            <label class="control-label" for="CommuncationInfos_@(Model)__Value">Value</label>
+            <input class="form-control" type="text" id="CommuncationInfos_@(Model)__Value" name="CommuncationInfos[@(Model)].Value" value="">
+            <span class="text-danger field-validation-valid" data-valmsg-for="CommuncationInfos[@(Model)].Value" data-valmsg-replace="true"></span>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="close" data-index="@Model" aria-label="Close" onclick="RemoveInfo(this)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+
+</script>

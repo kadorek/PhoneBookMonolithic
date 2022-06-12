@@ -1,0 +1,9 @@
+﻿@model Tuple<int,string>
+
+
+<select  data-val="true" data-val-required="The InfoType field is required." id="CommuncationInfos_@(Model.Item1)__Value" name="CommuncationInfos[@(Model.Item1)].Value" asp-items="@((List<SelectListItem>)ViewData["Locations"])" >
+    <option > Seçiniz</option>
+</select>
+@*
+<label class="control-label" for="CommuncationInfos_@(Model)__Value">Value</label>
+<input class="form-control" type="text" id="CommuncationInfos_@(Model)__Value" name="CommuncationInfos[@(Model)].Value" value="">*@

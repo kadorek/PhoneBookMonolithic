@@ -6,12 +6,13 @@
 
 <h1>Create</h1>
 
-<h4>ContactDTO</h4>
+<h4>Contact</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
                 <input asp-for="Ad" class="form-control" />
@@ -27,6 +28,7 @@
                 <input asp-for="Firma" class="form-control" />
                 <span asp-validation-for="Firma" class="text-danger"></span>
             </div>
+
             <fieldset>
                 <legend>İletişim Bilgileri</legend>
                 <div class="row">
@@ -36,7 +38,8 @@
                 <div class="divInfosContainer col-12">
                     @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
                     {
-                        <partial name="_partialComInfoCreate" model="i"></partial>
+                        @*<partial name="_partialComInfoCreate" model="i"></partial>*@
+                        @await Component.InvokeAsync("CommunicationInfoComponent", new { count = i });
                     }
                 </div>
             </fieldset>
@@ -66,7 +69,7 @@
     function createNewCommunicationInfo(count){
         $.ajax({
             type: "POST",
-            url: "/Contact/GetCommunicationInfoCreatePartial",
+            url: "/Contact/GetComInfoCreateFields",
             data: { "count": count },
             success: function (response) {
                 $(response).appendTo(".divInfosContainer");
@@ -87,19 +90,46 @@
        // e.preventDefault(e);
         var element=$(e);
         console.log(element.attr("data-index"));
-        $(".divComInfo[data-index="+element.attr("data-index")+"]").remove();        
+
+        $(".divComInfo[data-index="+element.attr("data-index")+"]").remove();
         var _c=$("#spnInfoCount").text();
         $("#spnInfoCount").text(Number(_c)-1);
 
-         $(".divComInfo  select").each(function(index){
-            $(this).attr("name","CommuncationInfos["+index+"].InfoType");
-            $(this).attr("id","CommuncationInfos_"+index+"__InfoType");
-        });
-        $(".divComInfo  input").each(function(index){
-            $(this).attr("name","CommuncationInfos["+index+"].Value");
-            $(this).attr("id","CommuncationInfos_"+index+"__Value");
+        $(".divComInfo").each(function(index){
+            $(this).attr("data-index",index);
+            $(this).find("select,input").each(function(ii){
+                var oldName=$(this).attr("name");
+                if (oldName){
+                    $(this).attr("name",oldName.replace(/\d+/,index));
+                }
+                var oldId=$(this).attr("id");
+                if(oldId){
+                    $(this).attr("id",oldId.replace(/\d+/,index));
+                }
+            });
         });
 
     }
+
+    
+    function  ProperInputSet(e){
+        var element=$(e);
+        //alert(element.val());
+        var index=element.attr("data-index");
+        $.ajax({
+            url: "/Contact/GetProperInputField",
+            type: "post",
+            dataType: "html",
+            beforeSend: function (x) {
+            },
+            data: {    "count":index,"type":element.val() },
+            success: function (result) {
+                $("div.divComInfo[data-index="+index+"] .divData").html("");
+                $(result).appendTo("div.divComInfo[data-index="+index+"] .divData");
+            }
+        });
+
+    }
+
 </script>
 }
