@@ -7,11 +7,9 @@ using System.Collections.Generic;
 
 namespace PhoneBookMonolithic.CRUDServices
 {
-
     public class ReportService:IModelService
     {
         private readonly IMongoCollection<Report> _reportCollection;
-
         public ReportService(IOptions<DatabaseSettings> dbSettings)
         {
             var mClient=new MongoClient(dbSettings.Value.ConnectionString);
@@ -21,7 +19,6 @@ namespace PhoneBookMonolithic.CRUDServices
 
         public void Create(IModel m)=>  _reportCollection.InsertOne((Report)m);
         
-
         public void DeletOne(IModel m)
         {
             var entity = _reportCollection.Find(x => x.UUID == m.UUID).FirstOrDefault();
@@ -46,6 +43,6 @@ namespace PhoneBookMonolithic.CRUDServices
 
         }
 
-        IEnumerable<IModel> IModelService.GetAll() => _reportCollection.Find(x => true).ToList();
+       public IEnumerable<IModel> GetAll() => _reportCollection.Find(x => true).ToList();
     }
 }
