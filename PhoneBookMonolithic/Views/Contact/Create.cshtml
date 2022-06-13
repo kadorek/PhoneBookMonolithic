@@ -12,10 +12,7 @@
     <div class="col-md-10">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 9c93612 (location service ve model eklendi)
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
                 <input asp-for="Ad" class="form-control" />
@@ -31,10 +28,7 @@
                 <input asp-for="Firma" class="form-control" />
                 <span asp-validation-for="Firma" class="text-danger"></span>
             </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 9c93612 (location service ve model eklendi)
             <fieldset>
                 <legend>İletişim Bilgileri</legend>
                 <div class="row">
@@ -45,7 +39,8 @@
                     @for (var i = 0; i < Model.CommuncationInfos.Count; i++)
                     {
                         @*<partial name="_partialComInfoCreate" model="i"></partial>*@
-                        @await Component.InvokeAsync("CommunicationInfoComponent", new { count = i });
+                        @await Component.InvokeAsync("CommunicationInfoComponent", new { count = i })
+                        ;
                     }
                 </div>
             </fieldset>
@@ -116,9 +111,8 @@
         });
 
     }
-<<<<<<< HEAD
 
-    
+
     function  ProperInputSet(e){
         var element=$(e);
         //alert(element.val());
@@ -138,7 +132,6 @@
 
     }
 
-=======
->>>>>>> parent of 9c93612 (location service ve model eklendi)
+
 </script>
 }

@@ -3,7 +3,7 @@
     public interface IModel
     {
         
-        public string? UUID { get; set; }
+        public string UUID { get; set; }
 
     }
 }
