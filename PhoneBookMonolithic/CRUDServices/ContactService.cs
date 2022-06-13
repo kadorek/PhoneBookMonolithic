@@ -2,8 +2,7 @@
 using PhoneBookMonolithic.Models;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-
-
+using System.Threading.Tasks;
 
 namespace PhoneBookMonolithic.CRUDServices
 {
@@ -19,6 +18,10 @@ namespace PhoneBookMonolithic.CRUDServices
         }
 
         public IEnumerable<IModel> GetAll() => _contactCollection.Find(x => true).ToList();
+
+        public async Task<IEnumerable<Contact>> GetAllAsync() {
+            return await _contactCollection.FindAsync(x => true).Result.ToListAsync();
+        }
 
         public void Create(IModel _c)
         {

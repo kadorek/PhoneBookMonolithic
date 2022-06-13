@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using PhoneBookMonolithic.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PhoneBookMonolithic.CRUDServices
 {
@@ -18,6 +19,10 @@ namespace PhoneBookMonolithic.CRUDServices
         }
 
         public IEnumerable<Location> GetAll() => _locationCollection.Find(x => true).ToList();
+
+
+        public async Task<IEnumerable<Location>> GetAllAsync()=>await _locationCollection.FindAsync(x=>true).Result.ToListAsync();
+
 
         public IModel GetOne(string id) => _locationCollection.Find(x => x.UUID == id).FirstOrDefault();
 
@@ -35,6 +40,9 @@ namespace PhoneBookMonolithic.CRUDServices
                           select new SelectListItem { Text = x.Name, Value = x.UUID ,Selected=x.UUID==v}).ToList();
             return result;
         }
+
+
+
 
 
     }
