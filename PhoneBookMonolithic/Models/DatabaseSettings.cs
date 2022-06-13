@@ -6,6 +6,5 @@
         public string DatabaseName { get; set; } = null;
         public string ContactsCollectionName { get; set; } = null;
         public string ReportsCollectionName { get; set; } = null;
-        public string LocationsCollectionName { get; set; } = null;
     }
 }
